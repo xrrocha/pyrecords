@@ -1,5 +1,9 @@
 # PyRecords
 
+<p align="center">
+  <img src="docs/img/pyrecords-logo.png" alt="PyRecords Logo" width="200">
+</p>
+
 **Framework pedagógico de copia de registros en Python**
 
 ## Descripción
