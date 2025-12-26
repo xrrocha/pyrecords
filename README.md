@@ -68,38 +68,90 @@ destino: !base_de_datos
   campos: [ID, NOMBRE]
 ```
 
-## Configuración del Proyecto
+## Configuración del Entorno
 
 ### Requisitos
 
 - Python 3.10+
+- Git
 
 ### Instalación para Desarrollo
 
-1. Clonar el repositorio:
+1. **Clonar el repositorio:**
    ```bash
    git clone git@github.com:xrrocha/pyrecords.git
    cd pyrecords
    ```
 
-2. Crear entorno virtual:
+2. **Crear y activar entorno virtual:**
    ```bash
-   python -m venv .venv
+   python3 -m venv .venv
+   source .venv/bin/activate  # Linux/macOS
+   # .venv\Scripts\activate   # Windows
    ```
 
-3. Activar entorno virtual:
+3. **Instalar dependencias:**
    ```bash
-   # Linux/macOS
-   source .venv/bin/activate
-
-   # Windows
-   .venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
-4. Instalar dependencias de desarrollo:
-   ```bash
-   pip install -e ".[dev]"
-   ```
+### Flujo de Desarrollo
+
+Usa `tareas.py` para las operaciones comunes (funciona en Windows, macOS y Linux):
+
+```bash
+python tareas.py dev      # Editar notebooks en Marimo
+python tareas.py build    # Exportar a WASM
+python tareas.py serve    # Servir WASM localmente (http://localhost:8000)
+python tareas.py help     # Ver todos los comandos
+```
+
+#### Comandos manuales (referencia)
+
+Si prefieres ejecutar los comandos directamente:
+
+```bash
+# Editar notebooks (desde directorio notebooks/)
+cd notebooks
+marimo edit 00_tuberia_nula.py
+
+# Exportar a WASM
+cd notebooks
+marimo export html-wasm 00_tuberia_nula.py -o ../dist --mode run
+
+# Servir localmente
+python -m http.server --directory dist 8000
+```
+
+Opciones de modo para export:
+- `--mode run`: Solo lectura (estudiantes ven output)
+- `--mode edit`: Estudiantes pueden modificar y re-ejecutar celdas
+
+### Estructura del Proyecto
+
+```
+pyrecords/
+├── notebooks/           # Lecciones Marimo
+│   ├── 00_tuberia_nula.py
+│   └── entrada.csv      # Datos de ejemplo
+├── src/pyrecords/       # Código del framework
+├── tests/               # Pruebas
+├── dist/                # Export WASM (gitignored)
+├── requirements.txt     # Dependencias Python
+├── tareas.py            # Script de tareas (cross-platform)
+└── README.md
+```
+
+### Agregar Dependencias
+
+Al instalar nuevos paquetes, **siempre** actualizar `requirements.txt`:
+
+```bash
+pip install <paquete>
+pip freeze > requirements.txt
+git add requirements.txt
+git commit -m "Agregar dependencia: <paquete>"
+```
 
 ## Licencia
 
